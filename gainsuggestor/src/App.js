@@ -21,11 +21,37 @@ function App() {
   const [proteinAmount, setProteinAmount] = useState('');
   const [carbAmount, setCarbAmount] = useState('');
   const [fatAmount, setFatAmount] = useState('');
+  const [isMetric, setIsMetric] = useState(true);
+  const [unitType, setUnitType] = useState('Freedom Units');
+  const [heightLabel, setHeightLabel] = useState('Height (in cm)');
+  const [weightLabel, setWeightLabel] = useState('Weight (in kg)');
 
+  const heightConvertTable = {
+    "48": 142.2,
+    "49": 144.8,
+    "411": 149.9,
+    "5": 152.4,
+    "51": 154.9,
+    "52": 157.4,
+    "53": 160.0,
+    "54": 162.5,
+    "55": 165.1,
+    "56": 167.7,
+    "57": 170.1,
+    "58": 172.7,
+    "59": 175.2,
+    "510": 177.8,
+    "511": 180.3,
+    "60": 182.9,
+  }
   const calculateLeanBodyMass = () => {
     if (weight) {
-      const fatMass = (bodyFat / 100) * weight;
-      const leanMass = weight - fatMass;
+      let cWeight = weight;
+      if(!isMetric){
+        cWeight = weight / 2.205;
+      }
+      const fatMass = (bodyFat / 100) * cWeight;
+      const leanMass = cWeight - fatMass;
       setLeanBodyMass(leanMass.toFixed(2));
     }
   };
@@ -34,11 +60,18 @@ function App() {
     if (age && height && weight && gender && goal && activityLevel) {
       let bmr;
 
+      let cWeight;
+      let cHeight;
+      if(!isMetric){
+        cWeight = weight / 2.205;
+        cHeight = heightConvertTable[height];
+      }
+
       // Calculate BMR based on Mifflin-St Jeor Equation
       if (gender === 'male') {
-        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+        bmr = 10 * cWeight + 6.25 * cHeight - 5 * age + 5;
       } else {
-        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+        bmr = 10 * cWeight + 6.25 * cHeight - 5 * age - 161;
       }
 
       // Apply activity level multiplier to get TDEE
@@ -65,6 +98,7 @@ function App() {
 
       calculateLeanBodyMass();
       setDailyCalories(tdee.toFixed(2));
+      //calculateMacronutrients();
     }
   };
 
@@ -77,13 +111,46 @@ function App() {
       setProteinAmount((protein * 4).toFixed(2)); // Assuming 1g of protein = 4 calories
       setCarbAmount((carbs * 4).toFixed(2)); // Assuming 1g of carbs = 4 calories
       setFatAmount((fat * 9).toFixed(2)); // Assuming 1g of fat = 9 calories
+
+      // reRender();
     }
   };
+
+  // const reRender = () => {
+  //   this.forceUpdate();
+  // }
+
+  const freedomConvert = () => {
+    if(isMetric){
+      setUnitType('Freedom Units');
+      setHeightLabel('Height (in ft)');
+      setWeightLabel('Weight (in lb)');
+      setIsMetric(false);
+    }
+    else{
+      setUnitType('Metric Units');
+      setHeightLabel('Height (in cm)');
+      setWeightLabel('Weight (in kg)');
+      setIsMetric(true);
+    }
+  }
+
+  const tableData = [
+    ['banana', 'steak', 'chicken'],
+    ['cereal', 'salad', 'potat'],
+    ['orange', 'sandwich', 'fish'],
+  ];
+
+  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const meals = ['Breakfast', 'Lunch', 'Dinner'];
 
   return (
     <Container className="mt-5">
       <h1 className="mb-4">Macro Nutrition Calculator</h1>
       <Form>
+      <Button variant="secondary" onClick={freedomConvert}>
+          Unit Convert
+        </Button>
         <Row className="mb-3">
           <Col>
             <Form.Label>Age</Form.Label>
@@ -95,7 +162,7 @@ function App() {
             />
           </Col>
           <Col>
-            <Form.Label>Height (in cm)</Form.Label>
+            <Form.Label>{heightLabel}</Form.Label>
             <Form.Control
               type="number"
               placeholder="Enter your height"
@@ -104,7 +171,7 @@ function App() {
             />
           </Col>
           <Col>
-            <Form.Label>Weight (in kg)</Form.Label>
+            <Form.Label>{weightLabel}</Form.Label>
             <Form.Control
               type="number"
               placeholder="Enter your weight"
@@ -171,6 +238,29 @@ function App() {
           <p>Fat: {fatAmount} calories</p>
         </div>
       )}
+
+      <div className="table">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              {daysOfWeek.map((day, index) => (
+                <th key={index}>{day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                <td>{meals[rowIndex]}</td>
+                {row.map((cell, columnIndex) => (
+                  <td key={columnIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Container>
   );
 }
