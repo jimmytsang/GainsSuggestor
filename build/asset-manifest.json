@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/gainsuggestor/static/css/main.67d6d0c3.css",
+    "main.js": "/gainsuggestor/static/js/main.b6ca8d40.js",
+    "static/js/787.3a085f9f.chunk.js": "/gainsuggestor/static/js/787.3a085f9f.chunk.js",
+    "index.html": "/gainsuggestor/index.html",
+    "main.67d6d0c3.css.map": "/gainsuggestor/static/css/main.67d6d0c3.css.map",
+    "main.b6ca8d40.js.map": "/gainsuggestor/static/js/main.b6ca8d40.js.map",
+    "787.3a085f9f.chunk.js.map": "/gainsuggestor/static/js/787.3a085f9f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67d6d0c3.css",
+    "static/js/main.b6ca8d40.js"
+  ]
+}
