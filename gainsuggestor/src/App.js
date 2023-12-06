@@ -239,28 +239,56 @@ function App() {
         </div>
       )}
 
-      <div className="table">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              {daysOfWeek.map((day, index) => (
-                <th key={index}>{day}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                <td>{meals[rowIndex]}</td>
-                {row.map((cell, columnIndex) => (
-                  <td key={columnIndex}>{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Meal</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Breakfast</th>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+          </tr>
+
+          <tr>
+            <th>Lunch</th>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+          </tr>
+
+          <tr>
+            <th>Dinner</th>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+            <td>meals</td>
+          </tr>
+        </tbody>
+      </table>
+      
     </Container>
   );
 }
